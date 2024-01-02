@@ -228,7 +228,7 @@ const WheelComponent = ({
       <div
         onClick={handleClick}
         id="click"
-        className="h-[90px] w-[90px] absolute right-[60%] top-[41.5%] rounded-full z-50"
+        className="h-[90px] w-[90px] absolute right-[41%] top-[41.5%] rounded-full z-50"
       ></div>
       <canvas id="canvas" width="530" height="530" />
     </div>
