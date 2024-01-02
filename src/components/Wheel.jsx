@@ -21,11 +21,11 @@ const Wheel = ({ segments }) => {
 
   const getWheelSize = () => {
     if (width < 640) {
-      return 175; // Example size for small screens
+      return 175;
     } else if (width >= 640 && width < 1024) {
-      return 190; // Example size for medium screens
+      return 190;
     } else {
-      return 250; // Example size for larger screens
+      return 250;
     }
   };
 
@@ -85,8 +85,8 @@ const Wheel = ({ segments }) => {
       {isWinnerModalOpen && <Confetti width={width} height={height} />}
 
       {isWinnerModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
-          <div className="fixed md:left-[50%] left-[50%] top-[50%] right-[50%] z-50 grid lg:w-[600px] w-[350px] translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg">
+        <div className="fixed inset-0 z-50 bg-black/80 w-full">
+          <div className="fixed top-1/2 left-[11%] md:left-[32%] md:top-[45%] lg:left-[40%] z-50 grid w-fit  gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg">
             <div className="flex flex-col space-y-1.5 text-center sm:text-left">
               <div className="text-4xl font-semibold leading-none tracking-tight">
                 Congratulations!
@@ -106,8 +106,8 @@ const Wheel = ({ segments }) => {
           </div>
         </div>
       )}
-      <div className="flex lg:flex-row flex-col items-center justify-center gap-4 my-4">
-        <div className="px-5">{memoizedWheelComponent}</div>
+      <div className="flex lg:flex-row w-full min-h-screen flex-col justify-center items-center gap-4 my-4">
+        <div>{memoizedWheelComponent}</div>
         <div>
           {segments.map((segment, index) => (
             <div key={index} className="flex items-center mt-2">

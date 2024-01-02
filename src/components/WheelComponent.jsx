@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import spining from "../assets/wheelSpin.mp3";
+import { useWindowSize } from "react-use";
 
 const WheelComponent = ({
   segments,
@@ -28,8 +29,7 @@ const WheelComponent = ({
   const downTime = segments.length * downDuration;
   let spinStart = 0;
   let frames = 0;
-  const centerX = 265;
-  const centerY = 265;
+
   useEffect(() => {
     wheelInit();
     setTimeout(() => {
@@ -41,11 +41,59 @@ const WheelComponent = ({
     wheelDraw();
   };
 
+  const { width, height } = useWindowSize();
+
+  const getWheelHeight = () => {
+    if (width < 640) {
+      return 440;
+    } else if (width >= 640 && width < 1024) {
+      return 500;
+    } else {
+      return 530;
+    }
+  };
+  const getWheelWidth = () => {
+    if (width < 640) {
+      return 430;
+    } else if (width >= 640 && width < 1024) {
+      return 500;
+    } else {
+      return 530;
+    }
+  };
+
+  const getSizewidth = () => {
+    if (width < 640) {
+      return 225;
+    } else if (width >= 640 && width < 1024) {
+      return 265;
+    } else {
+      return 265;
+    }
+  };
+  const getSizeHeight = () => {
+    if (width < 640) {
+      return 225;
+    } else if (width >= 640 && width < 1024) {
+      return 265;
+    } else {
+      return 265;
+    }
+  };
+
+  const HH = getSizewidth();
+  const Hw = getSizeHeight();
+  const H = getWheelHeight();
+  const W = getWheelWidth();
+
+  const centerX = Hw;
+  const centerY = HH;
+
   const initCanvas = () => {
     let canvas = document.getElementById("canvas");
     if (navigator.userAgent.indexOf("MSIE") !== -1) {
       canvas = document.createElement("canvas");
-      canvas.setAttribute("width", 1000);
+      canvas.setAttribute("width", 990);
       canvas.setAttribute("height", 600);
       canvas.setAttribute("id", "canvas");
       document.getElementById("wheel").appendChild(canvas);
@@ -230,7 +278,7 @@ const WheelComponent = ({
         id="click"
         className="h-[90px] w-[90px] absolute right-[41%] top-[41.5%] rounded-full z-50"
       ></div>
-      <canvas id="canvas" width="530" height="530" />
+      <canvas id="canvas" width={W} height={H} />
     </div>
   );
 };
