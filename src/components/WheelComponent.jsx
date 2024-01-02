@@ -62,11 +62,14 @@ const WheelComponent = ({
       maxSpeed = Math.PI / segments.length;
       frames = 0;
       timerHandle = setInterval(onTimerTick, timerDelay);
+      let upTime = segments.length * upDuration;
+      let downTime = segments.length * downDuration;
+      // ... other code ...
       const totalSpinTime = 6000; // 6 seconds in milliseconds
 
-    // Assuming you want to split the time evenly between speeding up and slowing down
-    upTime = totalSpinTime / 2;
-    downTime = totalSpinTime / 2
+      // Assuming you want to split the time evenly between speeding up and slowing down
+      upTime = totalSpinTime / 2;
+      downTime = totalSpinTime / 2;
     }
   };
   const onTimerTick = () => {

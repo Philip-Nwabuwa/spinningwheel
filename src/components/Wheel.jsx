@@ -6,10 +6,10 @@ import Confetti from "react-confetti";
 import { X } from "lucide-react";
 import { useWindowSize } from "react-use";
 
-export default function Wheel() {
-  const [segments, setSegments] = useState(() => {
-    const savedSegments = localStorage.getItem("segments");
-    return savedSegments ? JSON.parse(savedSegments) : [];
+const Wheel=({segments})=> {
+  const [savedSegments, setSavedSegments] = useState(() => {
+    const savedSegmentsData = localStorage.getItem("segments");
+    return savedSegmentsData ? JSON.parse(savedSegmentsData) : [];
   });
   const [newSegment, setNewSegment] = useState("");
   const [key, setKey] = useState(0);
@@ -42,9 +42,9 @@ export default function Wheel() {
     "#03A9F4",
     "#4CAF50",
   ];
-  
-  console.log(segColors);
-  console.log(segments);
+  const getColorForSegment = (index) => {
+    return segColors[index % segColors.length];
+  };
 
   const onFinished = (winner) => {
     if (segments.length >= 2) {
@@ -62,11 +62,12 @@ export default function Wheel() {
   };
 
   const memoizedWheelComponent = useMemo(() => {
+        const segmentColors = segments.map((_, index) => getColorForSegment(index));
     return (
       <WheelComponent
         key={key}
         segments={segments}
-        segColors={segColors}
+        segColors={segmentColors}
         onFinished={onFinished}
         primaryColor="black"
         contrastColor="white"
@@ -78,18 +79,17 @@ export default function Wheel() {
         fontFamily="Arial"
       />
     );
-  }, [key, segments, segColors, onFinished]);
+  }, [key, segments, onFinished]);
   return (
     <div className="App">
-      <h1>Welcom to Spin the Wheel</h1>
       {isWinnerModalOpen && <Confetti width={width} height={height} />}
 
       {isWinnerModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
           <div className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg">
             <div className="flex flex-col space-y-1.5 text-center sm:text-left">
-              <div className="text-2xl font-semibold leading-none tracking-tight">
-                We have a winner!
+              <div className="text-4xl font-semibold leading-none tracking-tight">
+              Congratulations!
               </div>
               <p className="pt-4 text-lg">{winner}</p>
               <div className="flex justify-end">
@@ -106,14 +106,7 @@ export default function Wheel() {
           </div>
         </div>
       )}
-      <input
-        type="text"
-        placeholder="Enter new segment"
-        value={newSegment}
-        onChange={(e) => setNewSegment(e.target.value)}
-      />
-      <Button onClick={handleAddSegment}>Add Segment</Button>
-      <div className="flex flex-row items-center justify-center gap-4 mt-4">
+      <div className="flex flex-row items-center justify-center gap-4 my-4">
       <div className="px-5">{memoizedWheelComponent}</div>
       <div>
       {segments.map((segment, index) => (
@@ -144,3 +137,5 @@ export default function Wheel() {
     </div>
   );
 }
+
+export default Wheel;
