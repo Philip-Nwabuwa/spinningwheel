@@ -23,6 +23,15 @@ function App() {
     setSegments(newSegments);
   };
 
+  const hasDuplicates = (array) => {
+    const lowerCaseArray = array.map((element) => element.trim().toLowerCase());
+    return new Set(lowerCaseArray).size !== lowerCaseArray.length;
+  };
+
+  const duplicates = hasDuplicates(
+    segments.filter((segment) => segment.trim() !== "")
+  );
+
   const updateSegments = () => {
     // This function could be used to update the state elsewhere, such as saving to a database
     console.log("Segments updated:", segments);
@@ -71,13 +80,19 @@ function App() {
                     </button>
                   </div>
                 ))}
+                {duplicates && (
+                  <p className="text-white mt-2 bg-red-500 p-2 rounded-[5px]">
+                    Error: Duplicate items are not allowed.
+                  </p>
+                )}
                 <button type="button" onClick={addSegment} className="mt-2">
                   Add New Input
                 </button>
                 <button
-                  className="h-[60px] bg-[#623ECA] text-white rounded-[10px] flex items-center justify-center mt-2"
+                  className="h-[60px] bg-[#623ECA] text-white rounded-[10px] flex items-center justify-center mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   type="button"
                   onClick={updateSegments}
+                  disabled={duplicates}
                 >
                   Generate
                 </button>
