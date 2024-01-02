@@ -19,16 +19,18 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    console.log('Saved theme from localStorage:', savedTheme);
-  
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    console.log('System prefers dark theme:', prefersDark);
-  
+    const savedTheme = localStorage.getItem("theme");
+    console.log("Saved theme from localStorage:", savedTheme);
+
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    console.log("System prefers dark theme:", prefersDark);
+
     if (savedTheme) {
       setTheme(savedTheme);
     } else {
-      setTheme(prefersDark ? 'dark' : 'light');
+      setTheme(prefersDark ? "dark" : "light");
     }
   }, []);
 
@@ -42,12 +44,12 @@ const Navbar = () => {
     }
   }, [theme]);
   return (
-    <nav className="flex items-center justify-between px-[70px] py-[40px] bg-white dark:bg-slate-900 dark:text-slate-900">
+    <nav className="w-full flex items-center justify-between lg:px-[70px] lg:py-[40px] px-5 py-5 bg-white dark:bg-slate-900 dark:text-slate-900">
       <div className="flex items-center gap-6">
         <a href="/">
           <img className="w-[200px] h-[44.66px]" src={Logo} alt="" />
         </a>
-        <div className="flex items-center py-[12px] px-[16px] bg-white rounded-[10px] border border-zinc-200">
+        <div className="lg:flex hidden items-center py-[12px] px-[16px] bg-white rounded-[10px] border border-zinc-200">
           <Calendar className="mr-4" />
           <span>{currentDate}</span>
         </div>

@@ -6,12 +6,7 @@ import Confetti from "react-confetti";
 import { X } from "lucide-react";
 import { useWindowSize } from "react-use";
 
-const Wheel=({segments})=> {
-  const [savedSegments, setSavedSegments] = useState(() => {
-    const savedSegmentsData = localStorage.getItem("segments");
-    return savedSegmentsData ? JSON.parse(savedSegmentsData) : [];
-  });
-  const [newSegment, setNewSegment] = useState("");
+const Wheel = ({ segments }) => {
   const [key, setKey] = useState(0);
   const [isWinnerModalOpen, setIsWinnerModalOpen] = useState(false);
   const [winner, setWinner] = useState("");
@@ -22,11 +17,15 @@ const Wheel=({segments})=> {
     localStorage.setItem("segments", JSON.stringify(segments));
   }, [segments]);
 
-  const handleAddSegment = () => {
-    if (newSegment.trim() !== "") {
-      setSegments([...segments, newSegment]);
-      setNewSegment("");
-      setKey(key + 1);
+  console.log(width);
+
+  const getWheelSize = () => {
+    if (width < 640) {
+      return 175; // Example size for small screens
+    } else if (width >= 640 && width < 1024) {
+      return 190; // Example size for medium screens
+    } else {
+      return 250; // Example size for larger screens
     }
   };
 
@@ -62,7 +61,8 @@ const Wheel=({segments})=> {
   };
 
   const memoizedWheelComponent = useMemo(() => {
-        const segmentColors = segments.map((_, index) => getColorForSegment(index));
+    const size = getWheelSize();
+    const segmentColors = segments.map((_, index) => getColorForSegment(index));
     return (
       <WheelComponent
         key={key}
@@ -73,7 +73,7 @@ const Wheel=({segments})=> {
         contrastColor="white"
         buttonText="Spin"
         isOnlyOnce={false}
-        size={250}
+        size={size}
         upDuration={3000}
         downDuration={3000}
         fontFamily="Arial"
@@ -89,7 +89,7 @@ const Wheel=({segments})=> {
           <div className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg">
             <div className="flex flex-col space-y-1.5 text-center sm:text-left">
               <div className="text-4xl font-semibold leading-none tracking-tight">
-              Congratulations!
+                Congratulations!
               </div>
               <p className="pt-4 text-lg">{winner}</p>
               <div className="flex justify-end">
@@ -106,36 +106,38 @@ const Wheel=({segments})=> {
           </div>
         </div>
       )}
-      <div className="flex flex-row items-center justify-center gap-4 my-4">
-      <div className="px-5">{memoizedWheelComponent}</div>
-      <div>
-      {segments.map((segment, index) => (
-        <div key={index} className="flex items-center mt-2">
-          <p className="mr-2">{segment}</p>
-          <button
-            className="p-1 rounded-full bg-red-500 text-white"
-            onClick={() => {
-              const updatedSegments = segments.filter((_, i) => i !== index);
-              setSegments(updatedSegments);
-              setKey((prevKey) => prevKey + 1);
-            }}
-          >
-            <X size={16} />
-          </button>
-        </div>
-      ))}
-      </div>
-      <div className="winners-list">
-        <h2>Winners:</h2>
-        <ul>
-          {winnersList.map((winner, index) => (
-            <li key={index}>{winner}</li>
+      <div className="flex lg:flex-row flex-col items-center justify-center gap-4 my-4">
+        <div className="px-5">{memoizedWheelComponent}</div>
+        <div>
+          {segments.map((segment, index) => (
+            <div key={index} className="flex items-center mt-2">
+              <p className="mr-2">{segment}</p>
+              <button
+                className="p-1 rounded-full bg-red-500 text-white"
+                onClick={() => {
+                  const updatedSegments = segments.filter(
+                    (_, i) => i !== index
+                  );
+                  setSegments(updatedSegments);
+                  setKey((prevKey) => prevKey + 1);
+                }}
+              >
+                <X size={16} />
+              </button>
+            </div>
           ))}
-        </ul>
-      </div>
+        </div>
+        <div className="winners-list">
+          <h2>Winners:</h2>
+          <ul>
+            {winnersList.map((winner, index) => (
+              <li key={index}>{winner}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default Wheel;

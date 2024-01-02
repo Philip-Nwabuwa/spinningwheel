@@ -39,7 +39,7 @@ function App() {
     <>
       <Navbar />
       {!showWheel && (
-        <div className="bg-[#f1f1f1] duration-100 dark:bg-slate-800 dark:text-gray-100 w-full h-full min-h-screen">
+        <div className="bg-[#f1f1f1] px-4 duration-100 dark:bg-slate-800 dark:text-gray-100 w-full h-full min-h-screen">
           <div className="flex flex-col justify-center items-center h-full pt-[80px]">
             <div className="max-w-[489.51px]">
               <h1 className="text-violet-700 capitalize text-[32px] font-bold leading-10 tracking-wide">
@@ -74,8 +74,12 @@ function App() {
                 <button type="button" onClick={addSegment} className="mt-2">
                   Add New Input
                 </button>
-                <button className="h-[60px] bg-[#623ECA] text-white rounded-[10px] flex items-center justify-center mt-2" type="button" onClick={updateSegments}>
-                Generate
+                <button
+                  className="h-[60px] bg-[#623ECA] text-white rounded-[10px] flex items-center justify-center mt-2"
+                  type="button"
+                  onClick={updateSegments}
+                >
+                  Generate
                 </button>
               </form>
               <div className="my-20 flex justify-center items-center gap-4">
